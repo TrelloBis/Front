@@ -4,5 +4,5 @@ export type Task = {
     description: string;
     priority: string;
     state: string;
-    userId: number
+    userId: string
 }

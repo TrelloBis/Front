@@ -13,43 +13,83 @@ export default function UsersProvider ({children}: {children: React.ReactNode}){
         if (user) return navigate('/list');
         const userInStorage = localStorage.getItem('user');
         if (userInStorage) {
-            const connectedUser = db.users.find((user) => user.id === +userInStorage)
-            if (connectedUser) {
-                setUser(connectedUser);                
-                return navigate('/list');
+
+            try {
+                fetch(`http://localhost:8000/api/users/${userInStorage}`, {
+                    method: "GET",
+                    headers: {
+                        'Content-type': 'application/json; charset=UTF-8',
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    
+                    if (data) {
+                        setUser(data);           
+                        return navigate('/list');
+                    }
+                    alert("User not found")
+                    return navigate('/auth');
+                });
+            } catch {
+                alert("User not found")
+                return navigate('/auth');
             }
         }
+
         return navigate('/auth');
     }
 
     const login = (username: string, password: string) => {
-        const loggingInUser = db.users.find((user) => user.username === username)
-        if (loggingInUser && loggingInUser.password === password) {
-            setUser(loggingInUser);
-            localStorage.setItem('user', loggingInUser.id.toString())
-            return navigate('/list')
+        console.log("login");
+        
+        try {
+            fetch('http://localhost:8000/api/users/login', {
+                method: "POST",
+                body: JSON.stringify({
+                    username
+                }),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data && data.password === password) {
+                    setUser(data);
+                    localStorage.setItem('user', data.id.toString())
+                    return navigate('/list')
+                }
+                if (user && user.password !== password) return alert("Wrong password")
+                return alert("User not found")
+            });
+        } catch {
+            return alert("User not found")
         }
-        if (user && user.password !== password) return alert("Wrong password")
-        return alert("User not found")
     } 
 
     const register = (username: string, password: string) => {
-        const user = db.users.find((user) => user.username === username)
-        if (user) return alert('User already exists')
-        const length = db.users.length;
-        const lastUserId = db.users[length - 1].id
-        const newUser = {
-            id: lastUserId + 1,
-            username,
-            password
-        }
-        db.users.push(newUser)                 
+        try {
+            fetch('http://localhost:8000/api/users/', {
+                method: "POST",
+                body: JSON.stringify({
+                    username,
+                    password
+                }),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            })
+        } catch {
+            return alert("User not found")
+        }               
     } 
 
     const logout = () => {
         setUser(undefined);
         localStorage.removeItem('user');
-        return navigate('/');           
+        return navigate('/');
     } 
 
     return (

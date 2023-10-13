@@ -3,13 +3,6 @@ export const priorityList = ["Low", "Medium", "High"]
 export const statesList = ["To Do", "In Progress", "Done"]
 
 export const db = {
-    "users": [
-        {
-            "id": 1,
-            "username": "test",
-            "password": "test" // will be hashed
-        }
-    ],
     "tasks": [
         {
             "id": 1,
@@ -17,7 +10,7 @@ export const db = {
             "description": "Description 1",
             "priority": "Low",
             "state": "To Do",
-            "userId": 1
+            "userId": "6528dd8c21997aff7e772238"
         },
         {
             "id": 2,
@@ -25,7 +18,7 @@ export const db = {
             "description": "Description 2",
             "priority": "Medium",
             "state": "In Progress",
-            "userId": 1
+            "userId": "6528dd8c21997aff7e772238"
         },
         {
             "id": 3,
@@ -33,7 +26,7 @@ export const db = {
             "description": "Description 3",
             "priority": "High",
             "state": "Done",
-            "userId": 1
+            "userId": "6528dd8c21997aff7e772238"
         },
         {
             "id": 4,
@@ -41,7 +34,7 @@ export const db = {
             "description": "Description 4",
             "priority": "Low",
             "state": "To Do",
-            "userId": 1
+            "userId": "6528dd8c21997aff7e772238"
         },
         {
             "id": 5,
@@ -49,7 +42,7 @@ export const db = {
             "description": "Description 5",
             "priority": "Medium",
             "state": "In Progress",
-            "userId": 1
+            "userId": "6528dd8c21997aff7e772238"
         },
         {
             "id": 6,
@@ -57,7 +50,7 @@ export const db = {
             "description": "Description 6",
             "priority": "High",
             "state": "Done",
-            "userId": 1
+            "userId": "6528dd8c21997aff7e772238"
         }
     ]
 }

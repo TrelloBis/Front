@@ -9,14 +9,19 @@ import { UsersContext } from "../../providers/UserProvider";
 export default function List() {
     const { tasks, getAllTasksForUser } = React.useContext(TasksContext);
     const { user, getUser, logout } = React.useContext(UsersContext);
-    const [allTasksForUser, setAllTasksForUser] = React.useState<Task[] | undefined>();
+    const [allTasksForUser, setAllTasksForUser] = React.useState<Task[]>([]);
     
     React.useEffect(() => {
         if (!user) getUser()
-        if (user && (!tasks || tasks !== allTasksForUser)) {
+        // console.log(user && (!tasks || ((tasks.length !== 0 && allTasksForUser.length > 0) && tasks !== allTasksForUser)));
+        console.log(user);
+        console.log(tasks);
+        // const newTasks = getAllTasksForUser();
+        if (user && !tasks) {
             const newTasks = getAllTasksForUser();
             setAllTasksForUser(newTasks)
-        }
+            console.log(newTasks);
+        }        
       }, [user, tasks]);
 
       function getToLogout () {
@@ -45,8 +50,8 @@ export default function List() {
                             fontWeight: '700',
                             }}
                         >
-                            {tasks && 
-                                <Tasks state={value} data={tasks.filter((task: Task) => task.state === value)}></Tasks>}
+                            {tasks ?
+                                <Tasks state={value} data={tasks.filter((task: Task) => task.state === value)}></Tasks> : "no tasks"}
                         </Box>
                 )}
         </div>
