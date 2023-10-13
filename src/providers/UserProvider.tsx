@@ -22,9 +22,7 @@ export default function UsersProvider ({children}: {children: React.ReactNode}){
                     },
                 })
                 .then(response => response.json())
-                .then(data => {
-                    console.log(data);
-                    
+                .then(data => {                    
                     if (data) {
                         setUser(data);           
                         return navigate('/list');
@@ -41,9 +39,7 @@ export default function UsersProvider ({children}: {children: React.ReactNode}){
         return navigate('/auth');
     }
 
-    const login = (username: string, password: string) => {
-        console.log("login");
-        
+    const login = (username: string, password: string) => {        
         try {
             fetch('http://localhost:8000/api/users/login', {
                 method: "POST",

@@ -9,18 +9,11 @@ import { UsersContext } from "../../providers/UserProvider";
 export default function List() {
     const { tasks, getAllTasksForUser } = React.useContext(TasksContext);
     const { user, getUser, logout } = React.useContext(UsersContext);
-    const [allTasksForUser, setAllTasksForUser] = React.useState<Task[]>([]);
     
     React.useEffect(() => {
         if (!user) getUser()
-        // console.log(user && (!tasks || ((tasks.length !== 0 && allTasksForUser.length > 0) && tasks !== allTasksForUser)));
-        console.log(user);
-        console.log(tasks);
-        // const newTasks = getAllTasksForUser();
         if (user && !tasks) {
-            const newTasks = getAllTasksForUser();
-            setAllTasksForUser(newTasks)
-            console.log(newTasks);
+            getAllTasksForUser();
         }        
       }, [user, tasks]);
 

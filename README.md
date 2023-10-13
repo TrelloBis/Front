@@ -12,7 +12,7 @@ Project has 3 pages :
 - '/list' is user is connected.
 
 From the auth page, it is possible to create a new user, or there is one alreaddy existing user:
-- username: test
-- password: test
+- username: hello
+- password: world
 
 From the list page, all tasks linked to the connected user are displayed. The already existing user already has some tasks saved. It is also possible to add, modify and delete tasks.

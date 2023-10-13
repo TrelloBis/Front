@@ -7,49 +7,40 @@ import { TasksContext } from "../../providers/TaskProvider";
 
 export default function OneTask(state: {task: Task}) {
     const activeTask = state.task;
-    const { getAllTasksForUser } = React.useContext(TasksContext);
-    const [priority, setPriority] = React.useState(activeTask.priority);
+    const { getAllTasksForUser, deleteTask, updateTask } = React.useContext(TasksContext);
+    // const [priority, setPriority] = React.useState(activeTask.priority);
     const [title, setTitle] = React.useState(activeTask.title);
     const [description, setDescription] = React.useState(activeTask.description);
 
     function changePriority(event: SelectChangeEvent) {
-        setPriority(event.target.value);
-        db.tasks.find((task) => {
-            if (task.id === activeTask.id) task.priority = event.target.value;
-        })
-        getAllTasksForUser();
+        // setPriority(event.target.value);
+        const updatedTask = activeTask;
+        updatedTask.priority = event.target.value;
+        updateTask(activeTask.id, updatedTask)
     }
 
     function changeState(event: SelectChangeEvent) {
-        db.tasks.find((task) => {
-            if (task.id === activeTask.id) {
-                task.state = event.target.value;
-            }
-        })
-        getAllTasksForUser();
+        const updatedTask = activeTask;
+        updatedTask.state = event.target.value;
+        updateTask(activeTask.id, updatedTask)
     }
 
     function changeTitle(event: React.ChangeEvent<HTMLInputElement>) {
         setTitle(event.target.value);
-        db.tasks.find((task) => {
-            if (task.id === activeTask.id) task.title = event.target.value;
-        })
-        getAllTasksForUser();
+        const updatedTask = activeTask;
+        updatedTask.title = event.target.value;
+        updateTask(activeTask.id, updatedTask)
     }
 
     function changeDescription(event: any) {
         setDescription(event.target.value);
-        db.tasks.find((task) => {
-            if (task.id === activeTask.id) task.description = event.target.value;
-        })
-        getAllTasksForUser();
+        const updatedTask = activeTask;
+        updatedTask.description = event.target.value;
+        updateTask(activeTask.id, updatedTask)
     }
 
-    function deleteTask() {
-        const newDbTask = db.tasks.filter((task) => {
-            return task.id !== activeTask.id
-        })        
-        db.tasks = newDbTask;
+    function deleteSelectedTask() {
+        deleteTask(activeTask.id);
         getAllTasksForUser();
     }
 
@@ -58,7 +49,7 @@ export default function OneTask(state: {task: Task}) {
             <CardContent>
             <TextField
             id="outlined-size-normal" onChange={changeTitle} value={title} />
-            <IconButton aria-label="delete" sx={{border: "1px solid grey", padding: '0 6px', marginLeft: "20px"}} onClick={deleteTask}>
+            <IconButton aria-label="delete" sx={{border: "1px solid grey", padding: '0 6px', marginLeft: "20px"}} onClick={deleteSelectedTask}>
                 X
             </IconButton>
             <Textarea
@@ -80,7 +71,7 @@ export default function OneTask(state: {task: Task}) {
                         <Select
                             labelId="demo-simple-select-label"
                             id="demo-simple-select"
-                            value={priority}
+                            value={activeTask.priority}
                             label="Priority"
                             onChange={changePriority}
                         >

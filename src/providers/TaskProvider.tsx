@@ -1,5 +1,4 @@
 import React from "react";
-import { db } from "../data/db";
 import { UsersContext } from "./UserProvider";
 import { Task } from "../Types/TaskTypes";
 
@@ -10,9 +9,6 @@ export default function TasksProvider ({children}: {children: React.ReactNode}){
     const [tasks, setTasks] = React.useState<Task[] | undefined>();
 
     const getAllTasksForUser = () => { 
-        console.log("geting tasks");
-        
-        setTasks(undefined);
         if (!user?.id) return alert("An error occured")
         try {
             fetch(`http://localhost:8000/api/tasks/`, {
@@ -25,7 +21,7 @@ export default function TasksProvider ({children}: {children: React.ReactNode}){
                 },
             })
             .then(response => response.json())
-            .then(data => {
+            .then(data => {                
                 setTasks(data);
                 return data
             });
@@ -52,7 +48,41 @@ export default function TasksProvider ({children}: {children: React.ReactNode}){
             })
             .then(response => response.json())
             .then(data => {
-                console.log(data);
+                getAllTasksForUser()
+            });
+        } catch {
+            return alert("An error occured")
+        }                
+    } 
+
+    const updateTask = (id: string, taskToUpdate: any) => {
+        try {
+            fetch(`http://localhost:8000/api/tasks/${id}`, {
+                method: "PUT",
+                body: JSON.stringify(taskToUpdate),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                getAllTasksForUser()
+            });
+        } catch {
+            return alert("An error occured")
+        }                
+    } 
+
+    const deleteTask = (id: string) => {
+        try {
+            fetch(`http://localhost:8000/api/tasks/${id}`, {
+                method: "DELETE",
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
                 getAllTasksForUser()
             });
         } catch {
@@ -61,7 +91,7 @@ export default function TasksProvider ({children}: {children: React.ReactNode}){
     } 
 
     return (
-        <TasksContext.Provider value={{ tasks, getAllTasksForUser, createTask }}>
+        <TasksContext.Provider value={{ tasks, getAllTasksForUser, createTask, deleteTask, updateTask }}>
             {children}
         </TasksContext.Provider>
     )
