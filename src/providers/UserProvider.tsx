@@ -38,6 +38,7 @@ export default function UsersProvider ({children}: {children: React.ReactNode}){
         return navigate('/auth');
     }
 
+    // !!! TODO : For security reasons, login will have to sent password to back because it will be hashed in DB !!!
     const login = (username: string, password: string) => {        
         try {
             fetch('http://localhost:8000/api/users/login', {
@@ -64,6 +65,7 @@ export default function UsersProvider ({children}: {children: React.ReactNode}){
         }
     } 
 
+    // !!! TODO : For security reasons, register will have to send password to back for hash before creating user in DB !!!
     const register = (username: string, password: string) => {
         try {
             fetch('http://localhost:8000/api/users/', {
