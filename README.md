@@ -1,6 +1,6 @@
 # Install and launch
 
-Run `npm install` to install the project, then `npm run dev to launch development server`.
+Run `npm install` to install the project, then `npm run dev` to launch development server.
 
 Access via http://localhost:5173/
 
