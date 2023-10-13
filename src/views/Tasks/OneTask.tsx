@@ -1,16 +1,9 @@
 import { Box, Card, CardActions, CardContent, FormControl, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
-import { statesList } from "../list/List";
 import React from "react";
 import { Task } from "../../Types/TaskTypes";
-import { db } from "../../data/db";
+import { db, priorityList, statesList } from "../../data/db";
 import Textarea from '@mui/joy/Textarea';
 import { TasksContext } from "../../providers/TaskProvider";
-
-const priorityList = [
-        "Low",
-        "Medium",
-        "High"
-]
 
 export default function OneTask(state: {task: Task}) {
     const activeTask = state.task;

@@ -1,10 +1,9 @@
-import { Box, IconButton, styled } from "@mui/material";
+import { Box } from "@mui/material";
 import Tasks from "../Tasks/Tasks";
 import React from "react";
 import { TasksContext } from "../../providers/TaskProvider";
 import { Task } from "../../Types/TaskTypes";
-
-export const statesList = ["To Do", "In Progress", "Done"]
+import { statesList } from "../../data/db";
 
 export default function List() {
     const { tasks, getAllTasksForUser } = React.useContext(TasksContext);
