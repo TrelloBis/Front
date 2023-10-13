@@ -10,8 +10,9 @@ export default function TasksProvider ({children}: {children: React.ReactNode}){
     const [tasks, setTasks] = React.useState<Task[] | []>();
 
     const getAllTasksForUser = () => { 
+        setTasks(undefined);
         const userTasks = db.tasks.filter((task) => task.userId === user.id);                
-        setTasks(userTasks)        
+        setTasks(userTasks); 
         return userTasks;
     } 
 

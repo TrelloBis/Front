@@ -17,15 +17,16 @@ export default function OneTask(state: {task: Task}) {
         db.tasks.find((task) => {
             if (task.id === activeTask.id) task.priority = event.target.value;
         })
+        getAllTasksForUser();
     }
 
     function changeState(event: SelectChangeEvent) {
         db.tasks.find((task) => {
             if (task.id === activeTask.id) {
                 task.state = event.target.value;
-                getAllTasksForUser();
             }
         })
+        getAllTasksForUser();
     }
 
     function changeTitle(event: React.ChangeEvent<HTMLInputElement>) {
@@ -33,6 +34,7 @@ export default function OneTask(state: {task: Task}) {
         db.tasks.find((task) => {
             if (task.id === activeTask.id) task.title = event.target.value;
         })
+        getAllTasksForUser();
     }
 
     function changeDescription(event: any) {
@@ -40,6 +42,7 @@ export default function OneTask(state: {task: Task}) {
         db.tasks.find((task) => {
             if (task.id === activeTask.id) task.description = event.target.value;
         })
+        getAllTasksForUser();
     }
 
     function deleteTask() {

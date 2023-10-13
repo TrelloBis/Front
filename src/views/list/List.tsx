@@ -1,23 +1,31 @@
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import Tasks from "../Tasks/Tasks";
 import React from "react";
 import { TasksContext } from "../../providers/TaskProvider";
 import { Task } from "../../Types/TaskTypes";
 import { statesList } from "../../data/db";
+import { UsersContext } from "../../providers/UserProvider";
 
 export default function List() {
     const { tasks, getAllTasksForUser } = React.useContext(TasksContext);
+    const { user, getUser, logout } = React.useContext(UsersContext);
     const [allTasksForUser, setAllTasksForUser] = React.useState<Task[] | undefined>();
     
     React.useEffect(() => {
-        if (!tasks || tasks !== allTasksForUser) {
+        if (!user) getUser()
+        if (user && (!tasks || tasks !== allTasksForUser)) {
             const newTasks = getAllTasksForUser();
             setAllTasksForUser(newTasks)
         }
-      }, [tasks]);
+      }, [user, tasks]);
+
+      function getToLogout () {
+        logout()
+      }
 
     return (
             <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between' }} className='feed-card'>
+                <Button variant="outlined" size="medium" style={{position: "absolute", top: "40px", right: "50px"}} onClick={getToLogout}>Logout</Button>
                 {statesList.map((value, index) => 
                         <Box
                             key={index}

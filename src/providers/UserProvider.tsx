@@ -11,13 +11,22 @@ export default function UsersProvider ({children}: {children: React.ReactNode}){
 
     const getUser = () => {
         if (user) return navigate('/list');
+        const userInStorage = localStorage.getItem('user');
+        if (userInStorage) {
+            const connectedUser = db.users.find((user) => user.id === +userInStorage)
+            if (connectedUser) {
+                setUser(connectedUser);                
+                return navigate('/list');
+            }
+        }
         return navigate('/auth');
     }
 
     const login = (username: string, password: string) => {
-        const user = db.users.find((user) => user.username === username)
-        if (user && user.password === password) {
-            setUser(user);
+        const loggingInUser = db.users.find((user) => user.username === username)
+        if (loggingInUser && loggingInUser.password === password) {
+            setUser(loggingInUser);
+            localStorage.setItem('user', loggingInUser.id.toString())
             return navigate('/list')
         }
         if (user && user.password !== password) return alert("Wrong password")
@@ -37,8 +46,14 @@ export default function UsersProvider ({children}: {children: React.ReactNode}){
         db.users.push(newUser)                 
     } 
 
+    const logout = () => {
+        setUser(undefined);
+        localStorage.removeItem('user');
+        return navigate('/');           
+    } 
+
     return (
-        <UsersContext.Provider value={{ user, getUser, login, register }}>
+        <UsersContext.Provider value={{ user, getUser, login, register, logout }}>
             {children}
         </UsersContext.Provider>
     )
