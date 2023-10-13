@@ -1,17 +1,22 @@
-import { Box, styled } from "@mui/material";
+import { Box, IconButton, styled } from "@mui/material";
 import Tasks from "../Tasks/Tasks";
+import React from "react";
+import { TasksContext } from "../../providers/TaskProvider";
+import { Task } from "../../Types/TaskTypes";
 
 export const statesList = ["To Do", "In Progress", "Done"]
 
-const Div = styled('div')(({ theme }) => ({
-    ...theme.typography.button,
-    backgroundColor: theme.palette.background.paper,
-    padding: theme.spacing(1),
-    p: 1,
-    m: 1,
-  }));
-
 export default function List() {
+    const { tasks, getAllTasksForUser } = React.useContext(TasksContext);
+    const [allTasksForUser, setAllTasksForUser] = React.useState<Task[] | undefined>();
+    
+    React.useEffect(() => {
+        if (!tasks || tasks !== allTasksForUser) {
+            const newTasks = getAllTasksForUser();
+            setAllTasksForUser(newTasks)
+        }
+      }, [tasks]);
+
     return (
             <div style={{ width: '100%', display: 'flex', justifyContent: 'space-between' }} className='feed-card'>
                 {statesList.map((value, index) => 
@@ -33,8 +38,8 @@ export default function List() {
                             fontWeight: '700',
                             }}
                         >
-                            <Div>{value}</Div>
-                            <Tasks state={value}></Tasks>
+                            {tasks && 
+                                <Tasks state={value} data={tasks.filter((task: Task) => task.state === value)}></Tasks>}
                         </Box>
                 )}
         </div>

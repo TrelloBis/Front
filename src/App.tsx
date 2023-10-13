@@ -9,7 +9,7 @@ export default function App() {
     <UsersProvider>
       <TasksProvider>
         <Router />
-      </TasksProvider>``
+      </TasksProvider>
     </UsersProvider>
       
     </>

@@ -7,7 +7,7 @@ export const UsersContext = React.createContext<any>([]);
 
 export default function UsersProvider ({children}: {children: React.ReactNode}){
     const navigate = useNavigate();
-    const [user, setUser] = React.useState<User | undefined>(db.users[0]);
+    const [user, setUser] = React.useState<User | undefined>();
 
     const getUser = () => {
         if (user) return navigate('/list');
@@ -34,9 +34,7 @@ export default function UsersProvider ({children}: {children: React.ReactNode}){
             username,
             password
         }
-        db.users.push(newUser) 
-        console.log(db.users);
-                
+        db.users.push(newUser)                 
     } 
 
     return (

@@ -11,14 +11,32 @@ export default function TasksProvider ({children}: {children: React.ReactNode}){
     const [task, setTask] = React.useState<Task | undefined>();
     const [tasks, setTasks] = React.useState<Task[] | []>();
 
-    const getAllTasksForUser = () => {              
+    const getAllTasksForUser = () => {    
+        console.log("ezosijdgb");
+                  
         const userTasks = db.tasks.filter((task) => task.userId === user.id);                
         setTasks(userTasks)
+        console.log("userTasks : ", userTasks);
+        
         return userTasks;
     } 
 
+    const createTask = (state: string) => {
+        const length = db.tasks.length;
+        const lastTaskId = db.tasks[length - 1].id
+        const newTask = {
+            id: lastTaskId + 1,
+            title: "Titre",
+            description: "Description",
+            priority: "Low",
+            state: state,
+            userId: user.id
+        }
+        db.tasks.push(newTask)                 
+    } 
+
     return (
-        <TasksContext.Provider value={{ task, tasks, getAllTasksForUser }}>
+        <TasksContext.Provider value={{ task, tasks, getAllTasksForUser, createTask }}>
             {children}
         </TasksContext.Provider>
     )

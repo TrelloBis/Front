@@ -1,24 +1,32 @@
+import { styled } from "@mui/material";
+import OneTask from "./OneTask";
 import React from "react";
 import { TasksContext } from "../../providers/TaskProvider";
-import { Task } from "../../Types/TaskTypes";
-import OneTask from "./OneTask";
 
-export default function Tasks(state: {state: string}) {
-    const { getAllTasksForUser } = React.useContext(TasksContext);
-    const [tasksForState, setTasksForState] = React.useState<Task[] | undefined>();
+const Div = styled('div')(({ theme }) => ({
+    ...theme.typography.button,
+    backgroundColor: theme.palette.background.paper,
+    padding: theme.spacing(1),
+    p: 1,
+    m: 1,
+  }));
 
-    React.useEffect(() => {
-        const allTasksForUser = getAllTasksForUser();        
-        const correctTasks = allTasksForUser.filter((task: Task) => task.state === state.state)        
-        setTasksForState(correctTasks)
-      }, []);
+export default function Tasks(state: {state: string, data: any}) {
+    const { getAllTasksForUser, createTask } = React.useContext(TasksContext);
+    
+    function addTask () {
+        createTask(state.state);
+        getAllTasksForUser();
+    }
 
   return (
     <div>
-        {tasksForState && tasksForState.length > 0 && tasksForState.map((value, index) => 
-        <div key={index}><OneTask task={value} ></OneTask></div>
-        
-            
+        <Div>
+            <span style={{marginLeft: "65px"}}>{state.state}</span>
+            <span style={{marginLeft: "80px", fontSize: "30px", border: "1px solid grey", borderRadius: "25px", padding: "0 8px"}} onClick={addTask}>+</span>
+        </Div>
+        {state.data && state.data.length > 0 && state.data.map((value: any, index: number) => 
+            <div key={index}><OneTask task={value} ></OneTask></div>
         )}
     </div>
   )

@@ -25,7 +25,6 @@ export default function Auth() {
         register(username, password)
         setUsername('')
         setPassword('')
-        
     }
 
     return (
