@@ -1,7 +1,7 @@
 import { Box, Card, CardActions, CardContent, FormControl, IconButton, InputLabel, MenuItem, Select, SelectChangeEvent, TextField, Typography } from "@mui/material";
 import React from "react";
 import { Task } from "../../Types/TaskTypes";
-import { db, priorityList, statesList } from "../../data/db";
+import { priorityList, statesList } from "../../data/db";
 import Textarea from '@mui/joy/Textarea';
 import { TasksContext } from "../../providers/TaskProvider";
 
